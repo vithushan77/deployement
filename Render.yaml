@@ -1,14 +1,22 @@
 services:
-  - type: web-service
-    name: gavinlegay
-    runtime: docker
-    repo : git@github.com:vithushan77/deployement.git
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter instance type)
-    branch: main # optional (defaults to master)
-    rootDir: gavinlegay
+  - name: cloud-web
+    type: web
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    repo: https://github.com/ArchOrn/render-deploy-blueprint.git
+    branch: main
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cloud-db
+          property: connectionString
 
 databases:
-  - name: elephant
-    databaseName: mydb # optional (Render may add a suffix)
-    user: adrian # optional
+  - name: cloud-db
+    databaseName: cloud
+    user: cloud
+    region: frankfurt
+    plan: free
